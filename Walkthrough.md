@@ -27,3 +27,12 @@ Exciting!! it seems we have a location to put stolen credential if we can find t
 For now we will focus on the backup.zip.by typing into the browser http://<TargetIPAddress>:8080/backup.zip or using curl in the terminal curl http://<TargetIPAddress>:8080/backup.zip --output <file_name>
 When you try to unzip this file it will show to be password protected. i would recommend completing this process in a designated directory to keep all the files tidy. I attempted to get into this zip file via fcrackzip using a simple brute force attack
 ![Alt text](/Images/Fcrackzip.png?raw=true "Readme.txt")
+A great example as to why a password needs more entropy than just meeting password guidelines. now that we can log in to our zip file. use 7zip or similar to extract the backup file using the password @administrator_hi5 when prompted. You will get an output similar to</br> 
+Enter password (will not be echoed):</br>
+Everything is Ok</br>
+Looking at the extracted files we can see there is a file called tomcat-users in a human readable format (xml).
+we cat tomcat-users.xml and find something very interesting!
+
+
+
+
