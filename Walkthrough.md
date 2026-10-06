@@ -9,8 +9,24 @@ This showed </br>
 80/tcp   open  http    Apache httpd 2.4.41 ((Ubuntu))</br>
 8080/tcp open  http    Apache Tomcat 9.0.53</br>
 
-Usually i do some manual enumeration for common files that may be left exposed such as looking for a Robots.txt or a Readme file however i decided to skip straight to enumeration of port 80
+## Enumeration of Targets web services
+Usually i do some manual enumeration for common files that may be left exposed such as looking for a Robots.txt or a Readme file however i decided to skip straight to enumeration...</br> 
+of port 80
 ![Alt text](/Images/DirsearchPort80.png?raw=true "Readme.txt")
 
 and port 8080
 ![Alt text](/Images/DirsearchPort8080.png?raw=true "Readme.txt")
+Port 80 seems to be useless or may require different scan parameters, however port 8080 has a lot of interesting content that could be used for exploitation. Backup.zip is exposed to the internet, there is an exposed readme file that reads 
+![Alt text](/Images/TomcatReadMe.png?raw=true "Readme.txt")
+ps: Randy may be a log in credential</br>
+
+## Searching for Exploits
+There is a few interesting directories such as /shell and /manager. before i start looking into the Backup.zip i would like to know what kind of access we have to /manager directory for the tomcat server.
+![Alt text](/Images/ManagerLogin.png?raw=true "Readme.txt")
+Exciting!! it seems we have a location to put stolen credential if we can find them. Once you've tried some default passwords and attempt to log in anonymously (sorry but it wont be that easy) we can shift our focus.
+
+
+For now we will focus on the backup.zip.by typing into the browser or using curl in the terminal curl http://10.0.2.16:8080/backup.zip --output <file_name>
+when you try to unzip this file
+
+
