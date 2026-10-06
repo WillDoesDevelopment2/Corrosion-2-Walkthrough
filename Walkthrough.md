@@ -10,7 +10,7 @@ This showed </br>
 8080/tcp open  http    Apache Tomcat 9.0.53</br>
 
 Usually i do some manual enumeration for common files that may be left exposed such as looking for a Robots.txt or a Readme file however i decided to skip straight to enumeration of port 80
-![Alt text](/Images/Dirsearch80.png?raw=true "Readme.txt")
+![Alt text](/Images/DirsearchPort80.png?raw=true "Readme.txt")
 
 and port 8080
-![Alt text](/Images/Dirsearch8080.png?raw=true "Readme.txt")
+![Alt text](/Images/DirsearchPort8080.png?raw=true "Readme.txt")
