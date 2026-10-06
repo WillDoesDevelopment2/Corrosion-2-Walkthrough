@@ -26,4 +26,4 @@ There is a few interesting directories such as /shell and /manager. before i sta
 Exciting!! it seems we have a location to put stolen credential if we can find them. Once you've tried some default passwords and attempt to log in anonymously (sorry but it most likely wont be that easy) we can shift our focus.
 For now we will focus on the backup.zip.by typing into the browser http://<TargetIPAddress>:8080/backup.zip or using curl in the terminal curl http://<TargetIPAddress>:8080/backup.zip --output <file_name>
 When you try to unzip this file it will show to be password protected. i would recommend completing this process in a designated directory to keep all the files tidy. I attempted to get into this zip file via fcrackzip using a simple brute force attack
-
+![Alt text](/Images/Fcrackzip.png?raw=true "Readme.txt")
