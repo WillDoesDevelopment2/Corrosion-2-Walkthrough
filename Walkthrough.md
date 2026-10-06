@@ -32,6 +32,12 @@ Enter password (will not be echoed):</br>
 Everything is Ok</br>
 Looking at the extracted files we can see there is a file called tomcat-users in a human readable format (xml).
 we cat tomcat-users.xml and find something very interesting!
+![Alt text](/Images/TomcatUserXml.png?raw=true "Readme.txt")
+
+here i can see a list of usernames we can add to the list, some of which come with passwords.I would keep these usernames somewhere for potential future brute force efforts. Now lets try to log in as admin or manager to the tomcat server using 'melehifokivai' as the password.
+![Alt text](/Images/ManagerLogInSuccess.png?raw=true "Readme.txt")
+
+
 
 
 
