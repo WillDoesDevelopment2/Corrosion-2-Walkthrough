@@ -83,9 +83,17 @@ John should find a password for randy as '07051986randy'. Lets log in as Randy. 
 We can access python3.8 and randombase64.py as root.
 
 ## Escalation Attempt 2: Python Library Hijacking
-Remembering the import base64 from the python library inside randombase64.py we now have everything we need to perform python library hijacking. we can type something like nano /usr/lib/python3.8/base64.py or your preferred file editor and replace the file with the following
-![Alt text](/Images/PythonLibHijacking.png?raw=true "Readme.txt")</br>
+Remembering the import base64 from the python library inside randombase64.py we now have everything we need to perform python library hijacking. we can type something like nano /usr/lib/python3.8/base64.py or your preferred file editor and replace the file with the following</br>
+![Alt text](/Images/PythonLibHijack.png?raw=true "Readme.txt")</br>
+This may work for you but i ended up having to use a similar method for some unknown reason. I had to create a file in tmp called malscript.py containing </br>
+import os</br>
+os.system ("bin/bash") </br>
 
+I then typed </br>
+cp /tmp/malscript.py /usr/lib/python3.8/base64.py to overwrite the path that randombase64 uses.
+Finally running randombase64 with the following command will give us root access!</br>
+sudo /usr/bin/python3.8 /home/randy/randombase64.py</br>
+and finally got the flag under root/root.txt
 
 
 
