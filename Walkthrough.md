@@ -59,6 +59,10 @@ If you would prefer a colour coded terminal for readability like me you can o th
 ![Alt text](/Images/UpgradingTerminal.png?raw=true "Readme.txt")
 
 ## Escalation 
+In home/randy we find 3 interesting files including the user flag!
+![Alt text](/Images/RandyNoteflagPY.png?raw=true "Readme.txt")
+The note indicates we Randy had restricted permissions at the moment, this is worth noting but not necessarily an issue. We have also found a python file, this could be a good escalation opportunity. Using ls -al we see it was made by a root user, however with the current user (you may check this with the command whoami) we do not have many permissions or the password to use sudo. Lets have another look at that SSH port for a different log in.
+
 
 
 
