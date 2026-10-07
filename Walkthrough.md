@@ -49,11 +49,16 @@ The clearest escalation into the system rather than the web facing manager appli
 - using the same port specified in the msfvenom command we will now open a terminal and use net cat to listen to port 4444.
 - now go back to the web browser and type in the name of your file like http://<target_IP>/shell and on your netcat terminal we will have a very unstable terminal!
 
-to complete the reverse shell we need to upgrade our terminal. I usually do the following
+to complete the reverse shell we need to upgrade our terminal. I usually do the following however there are other valid methods.
 - python3 -c 'import pty;pty.spawn("/bin/bash")' then press Ctrl+Z
 - stty raw -echo;fg then press ENTER twice
 - export TERM=xterm
+If you would prefer a colour coded terminal for readability like me you can o the following
+- export TERM=xterm-256color
+- source etc/skel/.bashrc
+![Alt text](/Images/UpgradingTerminal.png?raw=true "Readme.txt")
 
+## Escalation 
 
 
 
