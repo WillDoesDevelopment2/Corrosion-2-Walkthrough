@@ -11,13 +11,13 @@ This showed </br>
 
 ## Enumeration of Targets web services
 Usually i do some manual enumeration for common files that may be left exposed such as looking for a Robots.txt or a Readme file however i decided to skip straight to enumeration...</br> 
-of port 80
-![Alt text](/Images/DirsearchPort80.png?raw=true "Readme.txt")
+of port 80</br>
+![Alt text](/Images/DirsearchPort80.png?raw=true "Readme.txt")</br>
 
-and port 8080
-![Alt text](/Images/DirsearchPort8080.png?raw=true "Readme.txt")
-Port 80 seems to be useless or may require different scan parameters, however port 8080 has a lot of interesting content that could be used for exploitation. Backup.zip is exposed to the internet, there is an exposed readme file that reads 
-![Alt text](/Images/TomcatReadMe.png?raw=true "Readme.txt")
+and port 8080</br>
+![Alt text](/Images/DirsearchPort8080.png?raw=true "Readme.txt")</br>
+Port 80 seems to be useless or may require different scan parameters, however port 8080 has a lot of interesting content that could be used for exploitation. Backup.zip is exposed to the internet, there is an exposed readme file that reads </br>
+![Alt text](/Images/TomcatReadMe.png?raw=true "Readme.txt")</br>
 ps: Randy may be a log in credential</br>
 
 ## Searching for Exploits
@@ -33,11 +33,11 @@ Everything is Ok</br>
 
 ## Exploiting Stolen Credentials
 Looking at the extracted files we can see there is a file called tomcat-users in a human readable format (xml).
-we cat tomcat-users.xml and find something very interesting!
-![Alt text](/Images/TomcatUserXml.png?raw=true "Readme.txt")
+we cat tomcat-users.xml and find something very interesting!</br>
+![Alt text](/Images/TomcatUserXml.png?raw=true "Readme.txt")</br>
 
-here i can see a list of usernames we can add to the list, some of which come with passwords.I would keep these usernames somewhere for potential future brute force efforts. Now lets try to log in as admin or manager to the tomcat server using 'melehifokivai' as the password.
-![Alt text](/Images/ManagerLogInSuccess.png?raw=true "Readme.txt")
+here i can see a list of usernames we can add to the list, some of which come with passwords.I would keep these usernames somewhere for potential future brute force efforts. Now lets try to log in as admin or manager to the tomcat server using 'melehifokivai' as the password.</br>
+![Alt text](/Images/ManagerLogInSuccess.png?raw=true "Readme.txt")</br>
 It Worked!</br>
 
 ## Reverse Shell Via .WAR
@@ -56,11 +56,11 @@ to complete the reverse shell we need to upgrade our terminal. I usually do the 
 If you would prefer a colour coded terminal for readability like me you can o the following
 - export TERM=xterm-256color
 - source etc/skel/.bashrc
-![Alt text](/Images/UpgradingTerminal.png?raw=true "Readme.txt")
+![Alt text](/Images/UpgradingTerminal.png?raw=true "Readme.txt")</br>
 
 ## Escalation Attempt
-In home/randy we find 3 interesting files including the user flag!
-![Alt text](/Images/RandyNoteFlagPY.png?raw=true "Readme.txt")
+In home/randy we find 3 interesting files including the user flag!</br>
+![Alt text](/Images/RandyNoteFlagPY.png?raw=true "Readme.txt")</br>
 The note indicates we Randy had restricted permissions at the moment, this is worth noting but not necessarily an issue. We have also found a python file, this could be a good escalation opportunity. Using ls -al we see it was made by a root user, however with the current user (you may check this with the command whoami) we do not have many permissions or the password to use sudo. Lets have another look at that SSH port for a different log in.
 
 ## Lateral Movement
@@ -83,8 +83,16 @@ John should find a password for randy as '07051986randy'. Lets log in as Randy. 
 We can access python3.8 and randombase64.py as root.
 
 ## Escalation Attempt 2: Python Library Hijacking
-Remembering the import base64 from the python library inside randombase64.py we now have everything we need to perform python library hijacking. we can type something like nano /usr/lib/python3.8/base64.py or your preferred file editor and replace the file with the following
-![Alt text](/Images/PythonLibHijacking.png?raw=true "Readme.txt")</br>
+Remembering the import base64 from the python library inside randombase64.py we now have everything we need to perform python library hijacking. we can type something like nano /usr/lib/python3.8/base64.py or your preferred file editor and replace the file with the following</br>
+![Alt text](/Images/PythonLibHijack.png?raw=true "Readme.txt")</br>
+I followed a separate method creating a new file in /tmp called malscript.py containing</br>
+import os</br>
+os.system ("bin/bash")</br>
+then i typed...</br>
+cp /tmp/malscript.py /usr/lib/python3.8/base64.py overwriting the path of /base64. </br>
+I then ran the scripts as sudo and was given administrator privileges, under root/root.txt there was the final flag! Please leave any issues or anything unclear in the issues section
+
+
 
 
 
